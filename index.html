@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A Valentine's Day page for Mariam!">
+  <meta name="theme-color" content="#fce7f3">
+  <title>For My Valentine ❤️</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <style>
+    .gradient-background {
+      background: linear-gradient(180deg, #fdf2f8 0%, #fce7f3 20%, #fae8ff 40%, #f5d0fe 60%, #e9d5ff 80%, #ddd6fe 100%);
+      min-height: 100vh;
+    }
+
+    .bounce {
+      animation: bounce 2s ease infinite;
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+      }
+      40% {
+        transform: translateY(-20px);
+      }
+      60% {
+        transform: translateY(-10px);
+      }
+    }
+
+    .heart-pulse {
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    .soft-glow {
+      text-shadow: 0 0 15px rgba(236, 72, 153, 0.3),
+                   0 0 30px rgba(192, 132, 252, 0.2);
+    }
+
+    .fade-in {
+      animation: fadeIn 1s ease-out forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .slide-in-left {
+      animation: slideInLeft 1.2s ease-out forwards;
+      opacity: 0;
+    }
+
+    @keyframes slideInLeft {
+      from { opacity: 0; transform: translateX(-100px) rotate(-5deg); }
+      to { opacity: 1; transform: translateX(0) rotate(0); }
+    }
+
+    .slide-in-right {
+      animation: slideInRight 1.2s ease-out forwards;
+      opacity: 0;
+    }
+
+    @keyframes slideInRight {
+      from { opacity: 0; transform: translateX(100px) rotate(5deg); }
+      to { opacity: 1; transform: translateX(0) rotate(0); }
+    }
+
+    .float {
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(2deg); }
+    }
+
+    .float-reverse {
+      animation: floatReverse 3s ease-in-out infinite;
+    }
+
+    @keyframes floatReverse {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-15px) rotate(-2deg); }
+    }
+
+    .mobile-slide-up {
+      animation: mobileSlideUp 1s ease-out forwards;
+    }
+
+    @keyframes mobileSlideUp {
+      from { opacity: 0; transform: translateY(50px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+  <!-- Preload all images -->
+  <link rel="preload" as="image" href="./images/image1.gif">
+  <link rel="preload" as="image" href="./images/image2.gif">
+  <link rel="preload" as="image" href="./images/image3.gif">
+  <link rel="preload" as="image" href="./images/image4.gif">
+  <link rel="preload" as="image" href="./images/image5.gif">
+  <link rel="preload" as="image" href="./images/image6.gif">
+  <link rel="preload" as="image" href="./images/image7.gif">
+  <link rel="preload" as="image" href="./1.jfif">
+  <link rel="preload" as="image" href="./2.jfif">
+</head>
+<body class="gradient-background">
+  <main class="flex items-center justify-center min-h-screen p-4">
+    <section class="flex flex-col items-center p-4 md:p-8 bg-white/80 backdrop-blur-sm rounded-2xl border-2 border-pink-200 shadow-xl shadow-purple-200/50 max-w-4xl w-full fade-in">
+      
+      <!-- Mariam's name with elegant styling -->
+      <div class="mb-6 md:mb-8 text-center">
+        <h2 class="text-2xl md:text-3xl font-bold text-pink-700 mb-2">For My Beautiful</h2>
+        <h1 class="text-4xl md:text-5xl font-bold italic text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-pink-500 soft-glow heart-pulse">
+          MARIAM ❤️
+        </h1>
+        <div class="mt-3 md:mt-4 text-base md:text-lg text-purple-600 italic">
+          You make every day feel like Valentine's Day
+        </div>
+      </div>
+
+      <!-- Main content area that will change layout -->
+      <div id="mainContent" class="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-8 w-full">
+        
+        <!-- Left side photo (hidden initially, will show when she says yes) -->
+        <div id="leftPhoto" class="hidden w-full md:w-64 transform md:-rotate-3">
+          <div class="relative">
+            <div class="absolute -inset-2 md:-inset-4 bg-gradient-to-r from-pink-200 to-purple-200 rounded-2xl blur opacity-50"></div>
+            <img
+              id="photo1"
+              src="./1.jfif"
+              alt="Beautiful Mariam"
+              class="relative rounded-xl h-48 md:h-64 w-full md:w-64 object-cover border-4 border-pink-300 shadow-lg shadow-pink-300/50 mx-auto"
+            />
+          </div>
+          <div class="mt-3 md:mt-4 text-center text-pink-600 font-semibold italic text-sm md:text-base">
+            Always Beautiful ❤️
+          </div>
+        </div>
+
+        <!-- Center content (main image and question) -->
+        <div class="flex flex-col items-center w-full max-w-md">
+          <img
+            id="imageDisplay"
+            src="./images/image1.gif"
+            alt="Cute kitten with flowers"
+            class="rounded-xl h-[250px] md:h-[320px] w-full object-cover border-4 border-pink-300 shadow-lg shadow-pink-200/50 transition-all duration-500"
+          />
+          
+          <h1 id="valentineQuestion" class="text-3xl md:text-4xl font-bold italic text-pink-700 my-6 md:my-8 text-center">
+            Will you be my Valentine?
+          </h1>
+        </div>
+
+        <!-- Right side photo (hidden initially, will show when she says yes) -->
+        <div id="rightPhoto" class="hidden w-full md:w-64 transform md:rotate-3">
+          <div class="relative">
+            <div class="absolute -inset-2 md:-inset-4 bg-gradient-to-r from-purple-200 to-pink-200 rounded-2xl blur opacity-50"></div>
+            <img
+              id="photo2"
+              src="./2.jfif"
+              alt="Gorgeous Mariam"
+              class="relative rounded-xl h-48 md:h-64 w-full md:w-64 object-cover border-4 border-purple-300 shadow-lg shadow-purple-300/50 mx-auto"
+            />
+          </div>
+          <div class="mt-3 md:mt-4 text-center text-purple-600 font-semibold italic text-sm md:text-base">
+            Forever Amazing 💫
+          </div>
+        </div>
+
+      </div>
+      
+      <!-- Sweet paragraph will appear here when she says yes -->
+      <div id="sweetMessage" class="hidden mt-6 md:mt-8 p-6 md:p-8 bg-gradient-to-r from-pink-50 to-purple-50 border-2 border-pink-300/50 rounded-2xl w-full shadow-inner">
+        <p class="text-gray-800 text-base md:text-lg leading-relaxed text-center">
+          My baby My janu My Mariam, from the moment I met you, you've filled my world with light and joy. 
+          Your smile is like a sunrise that brightens my darkest days, and your laughter is the most 
+          beautiful melody I've ever heard. You're not just beautiful on the outside, but your heart, 
+          your soul, your kindness - everything about you is absolutely amazing. Being with you feels 
+          like home, and I'm so incredibly grateful to have you in my life. You're my dream come true, 
+          and I promise to cherish every moment with you. ❤️
+        </p>
+        <div class="mt-4 md:mt-6 text-center">
+          <div class="text-xl md:text-2xl text-pink-600 font-bold">Forever Yours</div>
+          <div class="text-purple-600 mt-3 md:mt-4 text-xl md:text-2xl">❤️ 🕊️ 💫 🌸 💕</div>
+        </div>
+      </div>
+      
+      <!-- Response buttons -->
+      <div id="responseButtons" class="flex flex-col md:flex-row gap-4 md:gap-8 pt-6 md:pt-8 items-center w-full max-w-md">
+        <button
+          id="yesButton"
+          class="bounce inline-flex items-center justify-center whitespace-nowrap rounded-full text-lg md:text-xl font-bold cursor-pointer px-8 md:px-10 py-4 md:py-5 bg-gradient-to-r from-pink-500 to-purple-500 text-white transition-all duration-300 ease-in-out hover:from-pink-600 hover:to-purple-600 hover:scale-105 md:hover:scale-110 transform shadow-lg shadow-pink-300/50 w-full md:w-auto min-h-14 md:min-h-16"
+        >
+          YES! ❤️
+        </button>
+        <button
+          id="noButton"
+          class="inline-flex items-center justify-center whitespace-nowrap rounded-full text-lg md:text-xl font-bold cursor-pointer px-8 md:px-10 py-4 md:py-5 bg-gradient-to-r from-pink-200 to-purple-200 text-pink-700 transition-all duration-300 hover:from-pink-300 hover:to-purple-300 hover:scale-105 transform border-2 border-pink-300 shadow-md shadow-pink-200/30 w-full md:w-auto min-h-14 md:min-h-16"
+        >
+          No
+        </button>
+      </div>
+
+      <!-- Floating hearts decoration -->
+      <div class="mt-8 md:mt-12 text-center text-pink-400 text-2xl md:text-3xl">
+        ❤️ 💕 🌸 💜 🦋
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (() => {
+      // DOM references
+      const yesButton = document.getElementById('yesButton');
+      const noButton = document.getElementById('noButton');
+      const imageDisplay = document.getElementById('imageDisplay');
+      const valentineQuestion = document.getElementById('valentineQuestion');
+      const responseButtons = document.getElementById('responseButtons');
+      const sweetMessage = document.getElementById('sweetMessage');
+      const leftPhoto = document.getElementById('leftPhoto');
+      const rightPhoto = document.getElementById('rightPhoto');
+      const mainContent = document.getElementById('mainContent');
+      const photo1 = document.getElementById('photo1');
+      const photo2 = document.getElementById('photo2');
+
+      // Configuration
+      const GROWTH_PER_CLICK = 35;
+      const FONT_GROWTH_PER_CLICK = 25;
+      const MAX_NO_CLICKS = 7;
+
+      // Only kitten gifs for the "No" button cycle
+      const KITTEN_IMAGES = [
+        './images/image1.gif',
+        './images/image2.gif',
+        './images/image3.gif',
+        './images/image4.gif',
+        './images/image5.gif',
+        './images/image6.gif',
+        './images/image7.gif',
+      ];
+
+      const NO_BUTTON_MESSAGES = [
+        'No',
+        'Are you sure?',
+        'Pookie please',
+        "Don't do this to me :(",
+        "You're breaking my heart",
+        "I'm gonna cry...",
+        "Last chance :'(",
+        "Please don't...",
+      ];
+
+      const ALT_TEXTS = [
+        'Cute kitten with flowers',
+        'Sad kitten looking up',
+        'Kitten begging',
+        'Heartbroken kitten',
+        'Crying kitten',
+        'Devastated kitten',
+        'Happy kitten celebrating',
+      ];
+
+      // State
+      let noClickCount = 0;
+      let buttonHeight = 56;
+      let buttonWidth = 120;
+      let fontSize = 18;
+
+      noButton.addEventListener('click', () => {
+        if (noClickCount >= MAX_NO_CLICKS) return;
+
+        noClickCount++;
+
+        // Update with kitten images only
+        const imageIndex = Math.min(noClickCount, KITTEN_IMAGES.length - 1);
+        imageDisplay.src = KITTEN_IMAGES[imageIndex];
+        imageDisplay.alt = ALT_TEXTS[imageIndex];
+
+        // Grow the "Yes" button to make it harder to ignore
+        buttonHeight += GROWTH_PER_CLICK;
+        buttonWidth += GROWTH_PER_CLICK;
+        fontSize += FONT_GROWTH_PER_CLICK;
+
+        yesButton.style.height = `${buttonHeight}px`;
+        yesButton.style.width = `${buttonWidth}px`;
+        yesButton.style.fontSize = `${fontSize}px`;
+
+        // Update "No" button text with increasingly desperate messages
+        noButton.textContent = NO_BUTTON_MESSAGES[noClickCount] || "Okay :'(";
+        
+        // Make "No" button shrink a bit for effect
+        noButton.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+          noButton.style.transform = 'scale(1)';
+        }, 200);
+      });
+
+      yesButton.addEventListener('click', () => {
+        // Change center image to happy kitten
+        imageDisplay.src = KITTEN_IMAGES[KITTEN_IMAGES.length - 1];
+        imageDisplay.alt = ALT_TEXTS[ALT_TEXTS.length - 1];
+        
+        // Update question to celebrate
+        valentineQuestion.textContent = 'YAYYY MARIAM!! ❤️❤️';
+        valentineQuestion.className = 'text-3xl md:text-4xl font-bold italic text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-pink-600 my-6 md:my-8 text-center soft-glow';
+        
+        // Show Mariam's photos on both sides with animations
+        leftPhoto.classList.remove('hidden');
+        rightPhoto.classList.remove('hidden');
+        
+        // Check if mobile
+        const isMobile = window.innerWidth < 768;
+        
+        if (isMobile) {
+          // Mobile layout: stack vertically
+          mainContent.className = 'flex flex-col items-center justify-center gap-6 md:gap-8 w-full transition-all duration-1000';
+          leftPhoto.classList.add('mobile-slide-up');
+          rightPhoto.classList.add('mobile-slide-up');
+          
+          // Delay second photo for staggered effect on mobile
+          setTimeout(() => {
+            leftPhoto.style.animationDelay = '0s';
+            rightPhoto.style.animationDelay = '0.3s';
+          }, 100);
+        } else {
+          // Desktop layout: side by side
+          mainContent.className = 'flex flex-col md:flex-row items-center justify-center gap-6 md:gap-12 w-full transition-all duration-1000';
+          leftPhoto.classList.add('slide-in-left', 'float');
+          rightPhoto.classList.add('slide-in-right', 'float-reverse');
+        }
+        
+        // Hide response buttons with animation
+        responseButtons.style.opacity = '0';
+        responseButtons.style.transform = 'scale(0.8)';
+        setTimeout(() => {
+          responseButtons.style.display = 'none';
+        }, 300);
+        
+        // Show the sweet message with animation
+        setTimeout(() => {
+          sweetMessage.classList.remove('hidden');
+          sweetMessage.classList.add('fade-in');
+        }, isMobile ? 800 : 1000);
+
+        // Heart-shaped confetti with pink and purple colors
+        const heart = confetti.shapeFromPath({
+          path: 'M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z',
+        });
+
+        // Pink and purple themed confetti
+        const defaults = { 
+          spread: 360, 
+          ticks: 100, 
+          gravity: 0.3, 
+          decay: 0.94, 
+          startVelocity: 30, 
+          shapes: [heart], 
+          colors: ['#ec4899', '#f472b6', '#d946ef', '#a855f7', '#8b5cf6', '#c084fc', '#f0abfc'] 
+        };
+
+        // Multiple confetti bursts
+        confetti({ ...defaults, particleCount: 100, scalar: 1.8 });
+        setTimeout(() => confetti({ ...defaults, particleCount: 80, scalar: 2 }), 200);
+        setTimeout(() => confetti({ ...defaults, particleCount: 60, scalar: 2.2 }), 400);
+        
+        // Continuous smaller bursts from the sides on desktop only
+        if (!isMobile) {
+          const interval = setInterval(() => {
+            // Left side burst
+            confetti({ 
+              ...defaults, 
+              particleCount: 20,
+              scalar: 1.2,
+              spread: 60,
+              startVelocity: 25,
+              angle: 60,
+              origin: { x: 0, y: 0.5 }
+            });
+            
+            // Right side burst
+            confetti({ 
+              ...defaults, 
+              particleCount: 20,
+              scalar: 1.2,
+              spread: 60,
+              startVelocity: 25,
+              angle: 120,
+              origin: { x: 1, y: 0.5 }
+            });
+          }, 2000);
+
+          // Stop after 20 seconds
+          setTimeout(() => clearInterval(interval), 20000);
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
